@@ -1,0 +1,41 @@
+[package]
+name = "shared"
+version = "0.1.0"
+authors = ["cbournhonesque"]
+edition = "2021"
+publish = false
+
+[dependencies]
+serde = { version = "1.0", features = [ "derive" ] }
+
+[dependencies.bevy]
+version = "0.11"
+default-features = false
+features = [
+    "bevy_asset",         # Assets management
+    "bevy_winit",         # Window management
+    "bevy_render",        # Rendering framework core
+    "bevy_core_pipeline", # Common rendering abstractions
+    "bevy_sprite",        # 2D (sprites) rendering
+    "bevy_text",          # Text/font rendering
+    "png",
+    "serialize",            # Support for `serde` Serialize/Deserialize
+]
+
+[dev-dependencies.bevy]
+version = "0.11"
+default-features = false
+features = [
+    "bevy_asset",         # Assets management
+    "bevy_winit",         # Window management
+    "bevy_render",        # Rendering framework core
+    "bevy_core_pipeline", # Common rendering abstractions
+    "bevy_sprite",        # 2D (sprites) rendering
+    "bevy_text",          # Text/font rendering
+    "png",
+    "serialize",            # Support for `serde` Serialize/Deserialize
+    # Development/Debug features:
+    "dynamic_linking",      # Dynamic linking for faster compile-times
+    "trace",        # Enable tracing for performance measurement
+    "trace_tracy",  # Tracing using `tracy`
+]

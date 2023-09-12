@@ -1,0 +1,178 @@
+server:
+  ip: [127, 0, 0, 1]  # server ip
+  port: 8080  # server port
+general:
+  mode: Multiplayer
+  log_filter: wgpu_core=warn,wgpu_hal=warn,mygame=debug,naia_shared=error,naia_bevy_server=error,naia_bevy_client=error,naia_server=error,naia_client=error,bevy_spatial=info,symphonia_core=warn,symphonia_format_ogg=warn
+  log_level: info
+  seed: 56
+  # setting to 2.0 will make bevy clock run twice as fast as system clock
+  relative_speed: 1.0
+  # does the server open a window and run rendering?
+  server_render: false
+  # number of frames per second
+  framerate: 64.0
+chat:
+  max_rows: 2
+  max_width: 80.0
+  history_display_sec: 5.0
+  history_limit: 1000
+audio:
+  # max number of simultaneous playing sounds
+  max_playing_sounds: 128
+  # max distance after which you won't hear a sound
+  max_distance_sound: 100.0
+  loop_volume_min: 0.05
+  loop_volume_max: 0.8
+settings:
+  refresh_time_per_second: 0.1
+movement:
+  timestep_ms: 10.0
+  # max_acceleration speed
+  seconds_to_reach_max_speed_at_max_acceleration: 3.
+  # deceleration speed
+  seconds_to_reach_min_speed_from_max_speed: 5.
+  # max distance you have to be from a snake to gain accelaration
+  # the acceleration will be linear to the distance
+  max_distance_for_acceleration: 10.0
+  # being closer to another snake than this won't make you accelerate faster
+  min_distance_for_max_acceleration: 1.0
+spatial:
+  # number of spatial entity added/updated after which we re-create the entire R-tree
+  recreate_after: 200
+player:
+  size:
+    width: 1.0
+    height: 2.0
+  # base speed. This will define the distance 'tick' of the world, along with the map.delta
+#  base_speed: 0.5
+  base_speed: 0.05
+  max_speed: 0.10
+  player_id: 0
+  start_size: 10.0
+  crown_size: 2.0
+  start_score: 0.0
+  segment_width: 1.0
+  # min distance the spawning head will be from other snakes
+  spawn_free_radius: 10.
+  head_z_value: 20.
+  segment_z_value: 10.
+  name_y_offset: -5.0
+  name_font_size: 60.0
+  death_animation_millis: 300
+  lightning:
+    min_distance: 5.0
+    max_distance: 10.0
+    time_between_particle_sec: 0.15
+    particle_lifetime_sec: 0.10
+    width: 1.0
+  particles:
+    # at which head distance do the particles start appearing
+    base_speed_ratio: 1.3
+    # speed of the particles
+    speed: 5.0
+    lifetime_sec: 0.25
+  glow:
+    size: 5.0
+    base_speed_ratio: 1.05
+    hard_base_speed_ratio: 1.3
+    size_over_speed_ratio: 0.6
+food:
+  speed_giver: 0.025
+  score_giver: 1.0
+  radius: 1.0
+  collision_radius: 5.0
+  size_giver: 5.0
+  spawn_timer_seconds: 2.0
+  z_value: 10.
+  death_animation_millis: 300
+  death_animation_size: 3.0
+  player_death:
+    # how to divide the segment into intervals when generating the food
+    food_per_interval: 3
+    orthogonal_jitter: 2.0
+    # how much food to spawn per segment size
+    food_per_size: 1.0
+camera:
+  height: 100.0
+  # TODO: adapt the scaling so that a camera with scale can still reason in world units!
+  start_scale: 0.05
+  end_scale: 0.2
+  # TODO: don't make this a linear function
+  # number of base food to eat before reaching end camera scale
+  num_food_scale: 100.0
+contact:
+  # TODO: update collision radius to depend on base_speed? which is the fixed step
+#  death_collision_radius: 0.25
+  death_collision_radius: 0.025
+#  death_collision_radius: 0.
+map:
+  size:
+    width: 200.
+    height: 200.
+  # minimum size delta. What does this even mean? If we multiply everything by delta (segment, player size), I guess it's the scale of objects
+  # w.r.t to the world size?
+  delta: 1.0
+  max_food_count: 10
+  # 'ring' around the map where new things cannot spawn
+  spawn_buffer: 15.
+  z_value: 0.
+stats:
+  num_scores_leaderboard: 10
+  top_scores_timestep_millis: 1000.0
+network:
+  # number of ms between 2 ticks
+  tick_interval: 16
+  client_prediction: false
+  # normally, we only show the predicted entity to the client. If this is true, we also show the confirmed entity.
+  show_confirmed: true
+  # accept confirmed updates from server, snap our prediction back to it and re-apply any commands
+  server_reconciliation: false
+  # for other player entities, interpolate their position between the last 2 confirmed received positions
+  entity_interpolation: false
+  # by how do we delay rendering of the interpolated entity to enable interpolation
+  interpolation_delay_ms: 60.0
+  # whether to perform interpolation for the controlled player
+  interpolate_controlled: true
+  # does the server add core components to its entities
+  # TODO: distinguish between core and cosmetic/render components
+  server_add_core: true
+ai:
+  # how much time it takes for the snake to be able to turn
+  turn_reaction_ms: 200.0
+color:
+  # rgba for different components
+  rgba:
+    background: [1, 49, 57, 255]
+    title_background: [39, 98, 100, 255]
+    leaderboard_background: [0, 36, 42, 50]
+    edge: [170, 255, 255, 255]
+    text: [11, 170, 173, 50]
+    highlighted_text: [21, 239, 240, 50]
+    title_text: [22, 255, 255, 50]
+  # luminosity/alpha for different components. The hue/saturation will come from the snake.
+  la:
+    food: [0.5, 1.0]
+    lightning: [0.5, 1.0]
+    spark: [0.7, 1.0]
+    glow: [0.5, 1.0]
+    glow_hard: [0.9, 1.0]
+    particle: [0.8, 1.0]
+    segment_base: [0.5, 1.0]
+    segment_dying: [1.0, 1.0]
+    segment_light: [0.7, 1.0]
+    segment_bright: [0.9, 1.0]
+  # how much the food hue from a snake can vary
+  food_hue_range: 50.
+  # (hue, saturation) for different colors associated with a snake. For now there is only one color (segment)
+  snake_hs:
+    - segment: [0, 1.0] # red
+    - segment: [20, 1.0] # orange
+    - segment: [50, 1.0] # yellow
+    - segment: [110, 1.0] # green
+    - segment: [170, 1.0] # teal
+    - segment: [230, 1.0] # blue
+    - segment: [270, 1.0] # purple
+    - segment: [310, 1.0] # pink
+    - segment: [0, 0.0] # gray
+
